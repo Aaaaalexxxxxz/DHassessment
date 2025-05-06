@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Budget Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #00e676;
+      --green-hover: #00c853;
+      --dark-bg: #121212;
+      --input-bg: #1c1c1e;
+      --text-main: #f1f1f1;
+      --text-muted: #aaa;
+      --border-color: #444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1a1a1d, #2c3e50);
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 2vh 4vw;
+    }
+
+    .container {
+      background: rgba(30, 30, 30, 0.85);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+      max-width: 600px;
+      width: 100%;
+      padding: clamp(1.5rem, 4vw, 3rem);
+      transition: all 0.3s ease-in-out;
+    }
+
+    .animated-number {
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 600;
+      color: var(--green);
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      color: #ffffff;
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.75rem;
+    }
+
+    label {
+      font-weight: 500;
+      margin-bottom: 0.6rem;
+      display: block;
+      color: var(--text-muted);
+      font-size: clamp(0.9rem, 2vw, 1rem);
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 1rem 1.2rem;
+      border: 1px solid var(--border-color);
+      background-color: var(--input-bg);
+      color: var(--text-main);
+      border-radius: 50px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.05);
+    }
+
+    input[type="number"]::placeholder {
+      color: #888;
+    }
+
+    input[type="number"]:focus {
+      border-color: var(--green);
+      outline: none;
+      background-color: #232323;
+      box-shadow:
+        0 0 0 3px rgba(0, 230, 118, 0.2),
+        0 0 0 6px rgba(0, 230, 118, 0.1);
+    }
+
+    button {
+      width: 100%;
+      padding: 1rem;
+      background: var(--green);
+      color: var(--dark-bg);
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: var(--green-hover);
+    }
+
+    .result {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      font-weight: 500;
+      color: var(--text-main);
+    }
+
+    @media (max-width: 480px) {
+      input[type="number"] {
+        font-size: 0.95rem;
+        padding: 0.9rem 1rem;
+      }
+
+      button {
+        font-size: 0.95rem;
+      }
+
+      .container {
+        padding: 1.5rem;
+        border-radius: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="animated-number" id="yearCounter">0</div>
+    <h1>Budget Calculator</h1>
+
+    <div class="form-group">
+      <label for="income">Income ($)</label>
+      <input type="number" id="income" placeholder="Enter your income" />
+    </div>
+
+    <div class="form-group">
+      <label for="expenses">Expenses ($)</label>
+      <input type="number" id="expenses" placeholder="Enter your expenses" />
+    </div>
+
+    <button onclick="calculateBudget()">Calculate</button>
+
+    <div class="result" id="resultText">Remaining balance: $0</div>
+  </div>
+
+  <script>
+    function calculateBudget() {
+      const income = parseFloat(document.getElementById("income").value) || 0;
+      const expenses = parseFloat(document.getElementById("expenses").value) || 0;
+      const remaining = income - expenses;
+      document.getElementById("resultText").textContent = `Remaining balance: $${remaining}`;
+    }
+
+    window.onload = () => {
+      const counter = document.getElementById("yearCounter");
+      const target = 2025;
+      const duration = 5000;
+      const stepTime = 50;
+      const steps = Math.floor(duration / stepTime);
+      let current = 0;
+      let increment = target / steps;
+
+      const interval = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          current = target;
+          clearInterval(interval);
+        }
+        counter.textContent = Math.floor(current);
+      }, stepTime);
+    };
+  </script>
+</body>
+</html>
